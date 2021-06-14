@@ -1,13 +1,12 @@
 import React,{ useEffect,useState } from 'react';
 import { BrowserRouter as Router,Route,Switch } from 'react-router-dom';
-import LeasingLanding from './components/home/leasing_landing/LeasingLanding';
-import './components/home/Home.css';
-import Sidebar from './components/sidebar/Sidebar';
-import Overview from './components/overview/Overview';
+import { HomeScreen } from 'screens/home/';
+import { Sidebar } from 'layouts/Sidebar';
+import { OverviewScreen } from 'screens/overview';
 import UserImg from '../src/images/user.png';
-import IssueNft from './components/nft/IssueNft';
+import { NFTScreen } from 'screens/nft';
 import * as RiIcons from 'react-icons/ri';
-import AssetsDefi from './components/assets_defi/AssetsDefi'
+import { PortfolioScreen } from 'screens/portfolio'
 import { initAccounts,initPolkaDot,switchAccount,updateBalance } from './store/polka_reducer';
 import { useDispatch,useSelector } from 'react-redux';
 import Dropdown from 'react-bootstrap/Dropdown';
@@ -77,12 +76,12 @@ function App() {
             </nav>
             <div className='content-container-main' >
               <Switch>
-                <Route path='/' exact component={Overview} />
-                <Route path='/leading' exact component={LeasingLanding} />
-                <Route path='/leasing' exact component={LeasingLanding} />
-                <Route path='/assets' exact component={AssetsDefi} />
-                <Route path='/defi' exact component={AssetsDefi} />
-                <Route path='/issue_nft' exact component={IssueNft} />
+                <Route path='/' exact component={OverviewScreen} />
+                <Route path='/leading' exact component={HomeScreen} />
+                <Route path='/leasing' exact component={HomeScreen} />
+                <Route path='/assets' exact component={PortfolioScreen} />
+                <Route path='/defi' exact component={PortfolioScreen} />
+                <Route path='/issue_nft' exact component={NFTScreen} />
               </Switch>
             </div>
           </div>
