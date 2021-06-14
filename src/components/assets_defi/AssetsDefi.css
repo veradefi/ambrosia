@@ -1,0 +1,159 @@
+.assets-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100% !important;
+}
+
+.token-details {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 25px;
+}
+
+.assets-main div {
+  font-size: 35px;
+}
+
+.token-first-col,
+.token-second-col,
+.token-third-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /* margin: 5% 0 5% 10%; */
+  padding: 3% 5%;
+}
+
+.token-first-col div:first-child {
+  visibility: hidden;
+}
+
+.token-second-col div:first-child {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.token-third-col div:first-child {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.token-first-col div:nth-child(2),
+.token-second-col div:nth-child(2),
+.token-third-col div:nth-child(2) {
+  padding: 10px 0;
+}
+
+.nft-add {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2% 3%;
+}
+
+.nft-add div:first-child {
+  font-size: 35px;
+}
+
+.nft-add div:last-child button {
+  background: #72cab4;
+  border-radius: 4px;
+  font-family: Helvetica;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 15px;
+  color: #ffffff;
+  padding: 5px 10px;
+}
+
+.lending-heading {
+  font-size: 35px;
+  padding: 1% 0;
+}
+
+.active-loans {
+  font-size: 25px;
+  padding: 1% 0;
+}
+
+.active-border {
+  border: 1px solid #ffffff;
+}
+
+.active-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 30px;
+}
+
+.active-container-2nd {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+}
+
+.active-item {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  padding: 2% 2%;
+}
+
+.active-item span:first-child {
+  width: 200px;
+  height: 200px;
+  border: 1px solid #72cab4;
+}
+
+.active-item span:first-child img {
+  visibility: hidden;
+}
+
+.l-l-heading {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 30px;
+  margin-bottom: 15px;
+}
+
+.l-l-heading div:first-child {
+  font-size: 30px;
+}
+
+.l-l-heading div:last-child button {
+  background: #72cab4;
+  border-radius: 4px;
+  font-family: Helvetica;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 15px;
+  color: #ffffff;
+  padding: 5px 10px;
+  border: none;
+}
+
+.l-l-para {
+  margin-bottom: 15px;
+}
+
+.third-row button:first-child {
+  margin-right: 20px;
+}

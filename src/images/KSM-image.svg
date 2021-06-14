@@ -1,0 +1,23 @@
+<svg width="96" height="88" viewBox="0 0 96 88" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g opacity="0.7" filter="url(#filter0_b)">
+<rect x="2" y="86.4849" width="84.485" height="92" rx="28" transform="rotate(-89.9018 2 86.4849)" fill="url(#paint0_radial)"/>
+<rect x="1.49914" y="86.984" width="85.485" height="93" rx="28.5" transform="rotate(-89.9018 1.49914 86.984)" stroke="url(#paint1_linear)"/>
+</g>
+<path d="M70.1759 26.1538C69.238 25.0957 68.1961 24.3005 66.9461 24.0342C65.384 23.7697 63.8218 25.0957 62.7812 26.0232C61.7407 26.9507 59.6555 29.3365 58.8245 30.2623C57.992 31.1915 55.9082 31.7206 52.4717 34.3725C49.0339 37.0228 35.7055 47.8902 35.7055 47.8902H39.142L23.6257 58.0962H25.1865L23 60.2158C24.25 60.6142 25.5 60.3497 26.6446 59.5545V60.2158C26.6446 60.2158 45.0771 50.9406 48.6177 53.3247L46.4312 54.1216C46.6393 54.1216 50.0758 54.3845 50.0758 54.3845C50.2839 56.2412 51.1163 57.9623 52.3677 58.8915C54.4501 60.6142 54.5542 61.6757 54.5542 61.6757C54.5542 61.6757 53.5136 62.2047 53.5136 63C55.492 62.203 57.5745 62.203 59.4488 63C59.4488 63 59.3447 62.203 57.8866 61.674C56.4285 60.8788 55.1785 59.6867 54.242 57.964C53.4082 56.5057 53.0961 54.6507 53.6163 52.9279C54.138 51.2051 55.9082 50.2759 59.5528 47.8919C63.8231 45.1076 64.8637 42.9881 65.3853 41.2636C65.9056 39.5408 66.9461 36.3615 67.3637 34.7693C67.7799 33.3111 68.5083 32.119 69.4461 31.0593C70.5921 30.264 71.8421 29.601 72.9867 29.072C73.1948 29.2042 70.9042 26.8151 70.1759 26.1538Z" fill="#DEDEDE"/>
+<defs>
+<filter id="filter0_b" x="-41.0017" y="-41.0017" width="178.148" height="170.646" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feGaussianBlur in="BackgroundImage" stdDeviation="21"/>
+<feComposite in2="SourceAlpha" operator="in" result="effect1_backgroundBlur"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_backgroundBlur" result="shape"/>
+</filter>
+<radialGradient id="paint0_radial" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(3.64849 89.7837) rotate(46.9581) scale(121.366 223.808)">
+<stop stop-color="#DFB8F4"/>
+<stop offset="1" stop-color="#1670F7"/>
+</radialGradient>
+<linearGradient id="paint1_linear" x1="44.2425" y1="86.4849" x2="43.3144" y2="185.562" gradientUnits="userSpaceOnUse">
+<stop stop-color="#E6D5F0"/>
+<stop offset="1" stop-color="#1456B9" stop-opacity="0.59"/>
+</linearGradient>
+</defs>
+</svg>
