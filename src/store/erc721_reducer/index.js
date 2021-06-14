@@ -1,7 +1,7 @@
 import { ContractPromise } from "@polkadot/api-contract";
 import { web3FromAddress } from "@polkadot/extension-dapp";
 import { bnToBn } from "@polkadot/util";
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk,createSlice } from "@reduxjs/toolkit";
 import erc721Abi from '../../erc721/metadata.json';
 import { erc721Address } from '../../addresses.json';
 
@@ -15,10 +15,10 @@ const toUnit = (val) => {
 
 export const initErc721Contract = createAsyncThunk(
     'InitErc721Contract',
-    async (action, thunkAPI) => {
+    async (action,thunkAPI) => {
         try {
-            const contract = new ContractPromise(action, erc721Abi, erc721Address);
-            console.log("ERC721 Contract: ", contract);
+            const contract = new ContractPromise(action,erc721Abi,erc721Address);
+            console.log("ERC721 Contract: ",contract);
             return {
                 contract
             }
@@ -32,8 +32,8 @@ export const initErc721Contract = createAsyncThunk(
 
 export const updateMyNfts = createAsyncThunk(
     'UpdateMyNfts',
-    async (action, thunkAPI) => {
-        function pushToLeases(array, val) {
+    async (action,thunkAPI) => {
+        function pushToLeases(array,val) {
             array.push({
                 'id': String(val.id),
                 'token_id': String(val.token_id),
@@ -43,7 +43,7 @@ export const updateMyNfts = createAsyncThunk(
                 'beneficiary_address': String(val.beneficiary_address),
             });
         }
-        function pushToLoans(array, val) {
+        function pushToLoans(array,val) {
             array.push({
                 'id': String(val.id),
                 'token_id': String(val.token_id),
@@ -56,28 +56,28 @@ export const updateMyNfts = createAsyncThunk(
         try {
             const leasingContract = thunkAPI.getState().leasing.contract;
             const lendingContract = thunkAPI.getState().lending.contract;
-            const { account, connected } = thunkAPI.getState().polka;
+            const { account,connected } = thunkAPI.getState().polka;
             if (connected && account) {
-                const allLeases = (await leasingContract.query.listLeases(account.address, { value: 0 })).output;
-                const allLoans = (await lendingContract.query.listLoans(account.address, { value: 0 })).output;
+                const allLeases = (await leasingContract.query.listLeases(account.address,{ value: 0 })).output;
+                const allLoans = (await lendingContract.query.listLoans(account.address,{ value: 0 })).output;
                 const activeLoans = [];
                 const activeLends = [];
                 const activeLeases = [];
                 const activeRents = [];
                 for (let i = 0; i < allLeases.length; ++i) {
                     if (String(allLeases[i].beneficiary_address) === account.address) {
-                        pushToLeases(activeLeases, allLeases[i]);
+                        pushToLeases(activeLeases,allLeases[i]);
                     }
                     if (String(allLeases[i].renter_address) === account.address) {
-                        pushToLeases(activeRents, allLeases[i]);
+                        pushToLeases(activeRents,allLeases[i]);
                     }
                 }
-                for (let i = 0; i < allLoans.length; ++i) {
+                for (let i = 0; i < (allLoans || []).length; ++i) {
                     if (String(allLoans[i].beneficiary_address) === account.address) {
-                        pushToLoans(activeLoans, allLoans[i]);
+                        pushToLoans(activeLoans,allLoans[i]);
                     }
                     if (String(allLoans[i].borrower_address) === account.address) {
-                        pushToLoans(activeLends, allLoans[i]);
+                        pushToLoans(activeLends,allLoans[i]);
                     }
                 }
                 thunkAPI.dispatch(updateErc721({
@@ -96,15 +96,15 @@ export const updateMyNfts = createAsyncThunk(
 
 export const mintNft = createAsyncThunk(
     'MintNFT',
-    async (action, thunkAPI) => {
+    async (action,thunkAPI) => {
         try {
             const { contract } = thunkAPI.getState().erc721;
             const { account } = thunkAPI.getState().polka;
             const injector = await web3FromAddress(account.address);
-            const { gasConsumed } = await contract.query.mint(account.address, { value: 0, gasLimit: -1 }, action.token_id);
+            const { gasConsumed } = await contract.query.mint(account.address,{ value: 0,gasLimit: -1 },action.token_id);
             const hash = await contract.tx
-                .mint({ value: 0, gasLimit: Number(gasConsumed) }, action.token_id)
-                .signAndSend(account.address, { signer: injector.signer });
+                .mint({ value: 0,gasLimit: Number(gasConsumed) },action.token_id)
+                .signAndSend(account.address,{ signer: injector.signer });
             console.log(hash);
             return true;
         } catch (error) {
@@ -125,7 +125,7 @@ const erc721Slice = createSlice({
         activeRents: [],
     },
     reducers: {
-        updateErc721: (state, action) => {
+        updateErc721: (state,action) => {
             state.activeLoans = action.payload.activeLoans;
             state.activeLends = action.payload.activeLends;
             state.activeLeases = action.payload.activeLeases;
@@ -133,7 +133,7 @@ const erc721Slice = createSlice({
         }
     },
     extraReducers: {
-        [initErc721Contract.fulfilled]: (state, action) => {
+        [initErc721Contract.fulfilled]: (state,action) => {
             state.contract = action.payload.contract;
         },
     }

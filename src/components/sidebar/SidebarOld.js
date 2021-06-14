@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React,{ useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import * as AiIcons from 'react-icons/ai';
@@ -41,29 +41,25 @@ const SidebarWrap = styled.div`
 `;
 
 const Sidebar = (props) => {
-  const [sidebar, setSidebar] = useState(false);
-  console.log( 'sidebar', props.showSidebar)
+  const [sidebar,setSidebar] = useState(false);
+  console.log('sidebar',props.showSidebar)
 
   const showSidebar = () => setSidebar(props.showSidebar);
 
   return (
     <>
       <IconContext.Provider value={{ color: '#fff' }}>
-        {/* <Nav>
-          <NavIcon to='#'>
-            <FaIcons.FaBars onClick={showSidebar} />
-          </NavIcon>
-        </Nav> */}
+
         <SidebarNav sidebar={props.showSidebar}>
           <SidebarWrap>
-            <NavIcon to='#'>
-              
+            <NavIcon to='/'>
+
             </NavIcon>
 
-            <NavIcon to='#'>
-              
-              </NavIcon>
-            {SidebarData.map((item, index) => {
+            <NavIcon to='/'>
+
+            </NavIcon>
+            {SidebarData.map((item,index) => {
               return <SubMenu item={item} key={index} />;
             })}
           </SidebarWrap>

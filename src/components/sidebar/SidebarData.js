@@ -1,7 +1,4 @@
 import React from 'react';
-// import * as FaIcons from 'react-icons/fa';
-// import * as AiIcons from 'react-icons/ai';
-// import * as IoIcons from 'react-icons/io';
 import * as RiIcons from 'react-icons/ri';
 
 export const SidebarData = [
@@ -13,6 +10,7 @@ export const SidebarData = [
   },
   {
     title: 'DeFi',
+    path: "#",
     iconClosed: <RiIcons.RiArrowDownSFill />,
     iconOpened: <RiIcons.RiArrowUpSFill />,
 
@@ -29,6 +27,7 @@ export const SidebarData = [
   },
   {
     title: 'Portfolio',
+    path: "#",
     iconClosed: <RiIcons.RiArrowDownSFill />,
     iconOpened: <RiIcons.RiArrowUpSFill />,
 
@@ -42,9 +41,6 @@ export const SidebarData = [
         path: '/defi',
       }
     ]
-  },
-  {
-    title: 'Market Overview',
   },
   {
     title: 'Issue NFT',

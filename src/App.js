@@ -1,6 +1,5 @@
 import React,{ useEffect,useState } from 'react';
 import { BrowserRouter as Router,Route,Switch } from 'react-router-dom';
-// import Home from './components/home/Home';
 import LeasingLanding from './components/home/leasing_landing/LeasingLanding';
 import './components/home/Home.css';
 import Sidebar from './components/sidebar/Sidebar';
@@ -12,7 +11,6 @@ import AssetsDefi from './components/assets_defi/AssetsDefi'
 import { initAccounts,initPolkaDot,switchAccount,updateBalance } from './store/polka_reducer';
 import { useDispatch,useSelector } from 'react-redux';
 import Dropdown from 'react-bootstrap/Dropdown';
-import './components/home/Home.css';
 import { updateMyNfts } from './store/erc721_reducer';
 import { updateErc20Balance } from './store/erc20_reducer';
 
@@ -80,7 +78,6 @@ function App() {
             <div className='content-container-main' >
               <Switch>
                 <Route path='/' exact component={Overview} />
-                {/* <Route path='#' exact component={LeasingLanding} /> */}
                 <Route path='/leading' exact component={LeasingLanding} />
                 <Route path='/leasing' exact component={LeasingLanding} />
                 <Route path='/assets' exact component={AssetsDefi} />
@@ -90,17 +87,6 @@ function App() {
             </div>
           </div>
         </div>
-
-
-
-        {/* <Switch>
-        <Route to='/overview'>
-          <Home />
-        </Route>
-        <Route to='/'>
-          <LeasingLanding />
-        </Route>
-      </Switch> */}
       </Router>
   );
 }

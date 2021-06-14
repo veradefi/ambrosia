@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React,{ useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -38,7 +38,6 @@ const DropdownLink = styled(Link)`
   font-size: 18px;
   transition: all 0.25s ease 0.2s;
   &:hover {
-    ${'' /* background: #252831; */}
     background:  linear-gradient(150deg, #1F64D2 4.28%, #52CCE7 58.39%, #89ECD4 96.37%);
     cursor: pointer;
     color: white;
@@ -48,7 +47,7 @@ const DropdownLink = styled(Link)`
 `;
 
 const SubMenu = ({ item }) => {
-  const [subnav, setSubnav] = useState(false);
+  const [subnav,setSubnav] = useState(false);
 
   const showSubnav = () => setSubnav(!subnav);
 
@@ -60,15 +59,11 @@ const SubMenu = ({ item }) => {
           <SidebarLabel>{item.title}</SidebarLabel>
         </div>
         <div>
-          {item.subNav && subnav
-            ? item.iconOpened
-            : item.subNav
-            ? item.iconClosed
-            : null}
+          {item.subNav && subnav ? item.iconOpened : item.subNav ? item.iconClosed : null}
         </div>
       </SidebarLink>
       {subnav &&
-        item.subNav.map((item, index) => {
+        item.subNav.map((item,index) => {
           return (
             <DropdownLink to={item.path} key={index}>
               {item.icon}

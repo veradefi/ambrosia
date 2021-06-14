@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { Table, Button, Space } from 'antd';
-import { Col, Container, Row } from 'react-bootstrap';
-import 'antd/dist/antd.css';
+import React,{ useEffect,useState } from 'react';
+import { Col,Container,Row } from 'react-bootstrap';
 import '../AssetsDefi.css'
 import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch,useSelector } from 'react-redux';
 import { updateErc20Balance } from '../../../store/erc20_reducer';
 
 const data = [
@@ -32,8 +30,33 @@ const balanceSuffix = [
     ' tUnit',
 ]
 
-function Assets() {
-    const [sf, setSf] = useState({
+
+const AssetsTable = ({ data }) => (
+    <table className="table table-striped  text-white">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Address</th>
+                <th>Amount</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {(data || []).map(item => <tr key={item.key}>
+                <td>{item.title}</td>
+                <td>{item.address}</td>
+                <td>{item.amount}</td>
+                <td>
+                    <button className="btn btn-info">Cashout Loan</button>
+                    <button className="btn btn-info ml-2">Lease</button>
+                </td>
+            </tr>)}
+        </tbody>
+    </table>
+)
+
+const Assets = () => {
+    const [sf,setSf] = useState({
         filteredInfo: null,
         sortedInfo: null,
     })
@@ -57,8 +80,8 @@ function Assets() {
         return String(val) + balanceSuffix[unitIndex];
     }
 
-    const handleChange = (pagination, filters, sorter) => {
-        console.log('Various parameters', pagination, filters, sorter);
+    const handleChange = (pagination,filters,sorter) => {
+        console.log('Various parameters',pagination,filters,sorter);
 
         setSf({
             filteredInfo: null,
@@ -66,83 +89,33 @@ function Assets() {
         });
     };
 
-    const { account, balances } = useSelector((state) => state.polka);
+    const { account,balances } = useSelector((state) => state.polka);
     const erc20Balance = useSelector(state => state.erc20.balance);
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(updateErc20Balance());
-        const interval = setInterval(() => { dispatch(updateErc20Balance()) }, 2000);
+        const interval = setInterval(() => { dispatch(updateErc20Balance()) },2000);
         return () => {
             clearInterval(interval);
         }
     });
 
-    let { sortedInfo, filteredInfo } = sf;
+    let { sortedInfo,filteredInfo } = sf;
     sortedInfo = sortedInfo || {};
     filteredInfo = filteredInfo || {};
-    const columns = [
-        {
-            title: 'Title',
-            dataIndex: 'title',
-            key: 'title',
-            filteredValue: filteredInfo.title || null,
-            onFilter: (value, record) => record.title.includes(value),
-            sorter: (a, b) => a.title.length - b.title.length,
-            sortOrder: sortedInfo.columnKey === 'title' && sortedInfo.order,
-            ellipsis: true,
-        },
-        {
-            title: 'Address',
-            dataIndex: 'address',
-            key: 'address',
-            sorter: (a, b) => a.address - b.address,
-            sortOrder: sortedInfo.columnKey === 'address' && sortedInfo.order,
-            ellipsis: true,
-        },
-        {
-            title: 'Amount',
-            dataIndex: 'amount',
-            key: 'amount',
-            filteredValue: filteredInfo.amount || null,
-            onFilter: (value, record) => record.amount.includes(value),
-            sorter: (a, b) => a.amount.length - b.amount.length,
-            sortOrder: sortedInfo.columnKey === 'amount' && sortedInfo.order,
-            ellipsis: true,
-        },
-        {
-            title: 'Action',
-            dataIndex: 'address',
-            render(text, record) {
-                return {
-                    children:
-                        <div className='action-btn ' >
-                            <button>Cashout Loan</button>
-                            <button>Lease</button>
-                        </div>
-                };
-            },
-            sortOrder: sortedInfo.columnKey === 'address' && sortedInfo.order,
-            ellipsis: true,
-        },
-    ];
+
     return (
         <>
             <Container>
                 <Row>
                     <Col>
-                        <Space className='mt-5 pl-5' style={{ width: '100%', marginBottom: 16 }}>
+                        <div className='mt-5 pl-5' style={{ width: '100%',marginBottom: 16 }}>
                             <div className='assets-main'>
                                 <div>Tokens</div>
                             </div>
-                        </Space>
+                        </div>
                         <div className='token-details'>
-                            {/* <div className='token-first-col' >
-                                <div>a</div>
-                                <div>P</div>
-                                <div>V</div>
-                                <div>V</div>
-                            </div> */}
                             <div className='token-second-col'>
                                 <div>Token name</div>
                                 <div>Polkadot</div>
@@ -162,7 +135,7 @@ function Assets() {
                                 </Link>
                             </div>
                         </div>
-                        <Table columns={columns} dataSource={data} onChange={handleChange} />
+                        <AssetsTable data={data} />
                     </Col>
                 </Row>
             </Container>

@@ -1,8 +1,8 @@
 import { ContractPromise } from "@polkadot/api-contract";
 import { web3FromAddress } from "@polkadot/extension-dapp";
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk,createSlice } from "@reduxjs/toolkit";
 import lendingAbi from '../../lendingmanager/metadata.json';
-import { lendingAddress, erc721Address } from '../../addresses.json';
+import { lendingAddress,erc721Address } from '../../addresses.json';
 import { bnToBn } from "@polkadot/util";
 
 const fromUnit = (val) => {
@@ -11,10 +11,10 @@ const fromUnit = (val) => {
 
 export const initLendingContract = createAsyncThunk(
     'InitLendingContract',
-    async (action, thunkAPI) => {
+    async (action,thunkAPI) => {
         try {
-            const contract = new ContractPromise(action, lendingAbi, lendingAddress);
-            console.log("Lending Contract: ", contract);
+            const contract = new ContractPromise(action,lendingAbi,lendingAddress);
+            console.log("Lending Contract: ",contract);
             return {
                 contract
             }
@@ -27,15 +27,15 @@ export const initLendingContract = createAsyncThunk(
 
 export const listAvailableLoans = createAsyncThunk(
     'ListAvailableLoans',
-    async (action, thunkAPI) => {
+    async (action,thunkAPI) => {
         try {
             const { contract } = thunkAPI.getState().lending;
             const { account } = thunkAPI.getState().polka;
             if (contract == null || account == null)
                 throw 'Contract and/or account not initialized';
-            const output = (await contract.query.listAvailableLoans(account.address, { value: 0 })).output;
+            const output = (await contract.query.listAvailableLoans(account.address,{ value: 0 })).output;
             const allLoans = [];
-            for (let i = 0; i < output.length; ++i) {
+            for (let i = 0; i < (output || []).length; ++i) {
                 allLoans.push({
                     'id': String(output[i].id),
                     'token_id': String(output[i].token_id),
@@ -57,7 +57,7 @@ export const listAvailableLoans = createAsyncThunk(
 
 export const lendLoan = createAsyncThunk(
     'LendLoans',
-    async (action, thunkAPI) => {
+    async (action,thunkAPI) => {
         try {
             const lendingContract = thunkAPI.getState().lending.contract;
             const { account } = thunkAPI.getState().polka;
@@ -65,16 +65,16 @@ export const lendLoan = createAsyncThunk(
             if (lendingContract == null || account == null || erc20Contract == null)
                 throw 'Contract and/or account not initialized';
             const injector = await web3FromAddress(account.address);
-            const approveGasConsumed = (await erc20Contract.query.approve(account.address, { value: 0, gasLimit: -1 }, lendingAddress, fromUnit(action.amount))).gasConsumed;
+            const approveGasConsumed = (await erc20Contract.query.approve(account.address,{ value: 0,gasLimit: -1 },lendingAddress,fromUnit(action.amount))).gasConsumed;
             const approvehash = await erc20Contract.tx
-                .approve({ value: 0, gasLimit: Number(approveGasConsumed) }, lendingAddress, fromUnit(action.amount))
-                .signAndSend(account.address, { signer: injector.signer });
+                .approve({ value: 0,gasLimit: Number(approveGasConsumed) },lendingAddress,fromUnit(action.amount))
+                .signAndSend(account.address,{ signer: injector.signer });
             console.log(approvehash);
 
-            const lendGasConsumed = (await lendingContract.query.lend(account.address, { value: 0, gasLimit: -1 }, action.id)).gasConsumed;
+            const lendGasConsumed = (await lendingContract.query.lend(account.address,{ value: 0,gasLimit: -1 },action.id)).gasConsumed;
             const lendHash = await lendingContract.tx
-                .lend({ value: 0, gasLimit: Number(lendGasConsumed) }, action.id)
-                .signAndSend(account.address, { signer: injector.signer });
+                .lend({ value: 0,gasLimit: Number(lendGasConsumed) },action.id)
+                .signAndSend(account.address,{ signer: injector.signer });
             console.log(lendHash);
             return true;
         } catch (error) {
@@ -86,7 +86,7 @@ export const lendLoan = createAsyncThunk(
 
 export const withdrawLoan = createAsyncThunk(
     'WithdrawLoans',
-    async (action, thunkAPI) => {
+    async (action,thunkAPI) => {
         try {
             const lendingContract = thunkAPI.getState().lending.contract;
             const { account } = thunkAPI.getState().polka;
@@ -95,20 +95,20 @@ export const withdrawLoan = createAsyncThunk(
                 throw 'Contract and/or account not initialized';
             const injector = await web3FromAddress(account.address);
 
-            const interest = Number((await lendingContract.query.getInterestRate(account.address, { value: 0 })).output);
+            const interest = Number((await lendingContract.query.getInterestRate(account.address,{ value: 0 })).output);
 
             const amount = fromUnit(action.amount * (1 + interest / 100));
 
-            const approveGasConsumed = (await erc20Contract.query.approve(account.address, { value: 0, gasLimit: -1 }, lendingAddress, amount)).gasConsumed;
+            const approveGasConsumed = (await erc20Contract.query.approve(account.address,{ value: 0,gasLimit: -1 },lendingAddress,amount)).gasConsumed;
             const output1 = await erc20Contract.tx
-                .approve({ value: 0, gasLimit: Number(approveGasConsumed) }, lendingAddress, amount)
-                .signAndSend(account.address, { signer: injector.signer });
+                .approve({ value: 0,gasLimit: Number(approveGasConsumed) },lendingAddress,amount)
+                .signAndSend(account.address,{ signer: injector.signer });
             console.log(output1);
 
-            const lendGasConsumed = (await lendingContract.query.withdraw(account.address, { value: 0, gasLimit: -1 }, action.id)).gasConsumed;
+            const lendGasConsumed = (await lendingContract.query.withdraw(account.address,{ value: 0,gasLimit: -1 },action.id)).gasConsumed;
             const output2 = await lendingContract.tx
-                .withdraw({ value: 0, gasLimit: Number(lendGasConsumed) }, action.id)
-                .signAndSend(account.address, { signer: injector.signer });
+                .withdraw({ value: 0,gasLimit: Number(lendGasConsumed) },action.id)
+                .signAndSend(account.address,{ signer: injector.signer });
             console.log(output2);
 
             return true;
@@ -121,23 +121,23 @@ export const withdrawLoan = createAsyncThunk(
 
 export const addLoan = createAsyncThunk(
     'AddLoan',
-    async (action, thunkAPI) => {
+    async (action,thunkAPI) => {
         try {
             const lendingContract = thunkAPI.getState().lending.contract;
             const erc721Contract = thunkAPI.getState().erc721.contract;
             const { account } = thunkAPI.getState().polka;
             const injector = await web3FromAddress(account.address);
 
-            const approveGasConsumed = (await erc721Contract.query.approve(account.address, { value: 0, gasLimit: -1 }, lendingAddress, action.token_id)).gasConsumed;
+            const approveGasConsumed = (await erc721Contract.query.approve(account.address,{ value: 0,gasLimit: -1 },lendingAddress,action.token_id)).gasConsumed;
             const output1 = await erc721Contract.tx
-                .approve({ value: 0, gasLimit: Number(approveGasConsumed) }, lendingAddress, action.token_id)
-                .signAndSend(account.address, { signer: injector.signer });
+                .approve({ value: 0,gasLimit: Number(approveGasConsumed) },lendingAddress,action.token_id)
+                .signAndSend(account.address,{ signer: injector.signer });
             console.log(output1);
 
-            const { gasConsumed } = await lendingContract.query.listToken(account.address, { value: 0, gasLimit: -1 }, erc721Address, action.token_id, account.address, Number(action.amount), Number(action.duration));
+            const { gasConsumed } = await lendingContract.query.listToken(account.address,{ value: 0,gasLimit: -1 },erc721Address,action.token_id,account.address,Number(action.amount),Number(action.duration));
             const output2 = await lendingContract.tx
-                .listToken({ value: 0, gasLimit: Number(gasConsumed) }, erc721Address, action.token_id, account.address, Number(action.amount), Number(action.duration))
-                .signAndSend(account.address, { signer: injector.signer });
+                .listToken({ value: 0,gasLimit: Number(gasConsumed) },erc721Address,action.token_id,account.address,Number(action.amount),Number(action.duration))
+                .signAndSend(account.address,{ signer: injector.signer });
             console.log(output2);
 
             return true;
@@ -156,10 +156,10 @@ const lendingSlice = createSlice({
         allLoans: [],
     },
     extraReducers: {
-        [initLendingContract.fulfilled]: (state, action) => {
+        [initLendingContract.fulfilled]: (state,action) => {
             state.contract = action.payload.contract;
         },
-        [listAvailableLoans.fulfilled]: (state, action) => {
+        [listAvailableLoans.fulfilled]: (state,action) => {
             state.allLoans = action.payload.allLoans;
         },
     }
