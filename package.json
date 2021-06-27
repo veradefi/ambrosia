@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@hookform/resolvers": "^2.6.0",
     "@polkadot/api": "^4.8.1",
     "@polkadot/api-contract": "^4.8.1",
     "@polkadot/extension-dapp": "^0.37.2",
@@ -14,12 +15,14 @@
     "react": "^17.0.2",
     "react-bootstrap": "^1.5.2",
     "react-dom": "^17.0.2",
+    "react-hook-form": "^7.9.0",
     "react-icons": "^4.2.0",
     "react-redux": "^7.2.4",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "styled-components": "^5.2.1",
-    "web-vitals": "^1.0.1"
+    "web-vitals": "^1.0.1",
+    "yup": "^0.32.9"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -12,10 +12,6 @@ code {
     monospace;
 }
 
-#wrapper {
-  overflow-x: hidden;
-}
-
 body {
   background-color: rgb(33, 30, 46) !important;
 }
@@ -44,6 +40,7 @@ body {
   -moz-transition: margin 0.25s ease-out;
   -o-transition: margin 0.25s ease-out;
   transition: margin 0.25s ease-out;
+  height: auto;
 }
 
 #sidebar-wrapper .sidebar-heading {
@@ -58,12 +55,7 @@ body {
 #page-content-wrapper {
   min-width: 100vw;
   background-color: rgb(33, 30, 46) !important;
-  height: 100vh;
   color: #ffffff;
-}
-
-#wrapper.toggled #sidebar-wrapper {
-  margin-left: 0;
 }
 
 #menu-toggle {
@@ -83,10 +75,6 @@ body {
   #wrapper.toggled #sidebar-wrapper {
     margin-left: -15rem;
   }
-
-  /* #menu-toggle {
-    display: none !important;
-  } */
 
   .t-btn {
     margin-left: 0 !important;
@@ -268,10 +256,6 @@ body {
   border-top: none !important;
 }
 
-.sb-table thead tr th {
-  /* padding-left: 5%; */
-}
-
 .sb-table tbody tr td:first-child img {
   width: 30px;
   margin-right: 10px;
@@ -402,27 +386,4 @@ body {
 
 .dropdown-menu a:hover {
   background-color: #6bdcbf !important;
-}
-
-.wallet-connect-btn {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-}
-
-.wallet-connect-btn button {
-  background-color: #89ecd4;
-  padding: 2% 3%;
-  border-radius: 4px;
-}
-
-.wallet-connect-btn button:hover {
-  background: linear-gradient(150deg,
-      #1f64d2 4.28%,
-      #52cce7 58.39%,
-      #89ecd4 96.37%);
-  color: #ffffff;
-  border: 0;
 }

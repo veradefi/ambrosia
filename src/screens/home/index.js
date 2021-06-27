@@ -1,9 +1,10 @@
 import React,{ useState,useEffect } from 'react';
 import { Col,Container,Row } from 'react-bootstrap';
-import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'
-import Leading from './leading/leading';
+import Leading from './leading/Leading';
 import Leasing from './leasing/Leasing';
+import { CustomTabs } from 'components/Common';
+
 
 export const HomeScreen = (props) => {
     const [path,setPath] = useState(null);
@@ -17,7 +18,7 @@ export const HomeScreen = (props) => {
             <Container>
                 <Row>
                     <Col>
-                        <Tabs className='mt-4'
+                        <CustomTabs className='mt-4'
                             activeKey={path}
                             onSelect={(k) => { setPath(k) }}
                             id="noanim-tab-example">
@@ -27,7 +28,7 @@ export const HomeScreen = (props) => {
                             <Tab eventKey="/leasing" title="Leasing">
                                 <Leasing />
                             </Tab>
-                        </Tabs>
+                        </CustomTabs>
                     </Col>
                 </Row>
             </Container>

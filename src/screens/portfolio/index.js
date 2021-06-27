@@ -1,10 +1,9 @@
 import React,{ useState,useEffect } from 'react';
 import { Col,Container,Row } from 'react-bootstrap';
-import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'
 import Assets from './assets/Assets';
 import Defi from './defi/Defi';
-import './index.css';
+import { CustomTabs } from 'components/Common';
 
 export const PortfolioScreen = (props) => {
     const [path,setPath] = useState(null);
@@ -18,7 +17,7 @@ export const PortfolioScreen = (props) => {
             <Container>
                 <Row>
                     <Col>
-                        <Tabs className='mt-4'
+                        <CustomTabs className='mt-4'
                             activeKey={path}
                             onSelect={(k) => { setPath(k) }}
                             id="noanim-tab-example">
@@ -28,7 +27,7 @@ export const PortfolioScreen = (props) => {
                             <Tab eventKey="/defi" title="Defi">
                                 <Defi />
                             </Tab>
-                        </Tabs>
+                        </CustomTabs>
                     </Col>
                 </Row>
             </Container>

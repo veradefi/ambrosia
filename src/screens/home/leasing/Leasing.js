@@ -1,9 +1,25 @@
 import React,{ useEffect,useState } from 'react';
-import { Col,Container,Row } from 'react-bootstrap';
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button'
 import { useDispatch,useSelector } from 'react-redux';
 import { addLease,listLeases,rentLease } from 'store/leasing_reducer';
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { FormInputField } from 'components/FormFields';
+import { LoadingBar } from 'components/LoadingBar';
+
+const LeasingSchema = yup.object().shape({
+    token_id: yup.string().required("Token ID is required"),
+    amount: yup
+        .number("Amount should be number")
+        .required("Amount is required")
+        .positive("Amount should be positive")
+        .integer("Amount should be number"),
+    duration: yup
+        .number("Duration should be number")
+        .required("Duration is required")
+        .positive("Duration should be positive")
+        .integer("Duration should be number"),
+});
 
 const LeasingTable = ({ data,rentToken }) => (
     <table className="table table-striped  text-white">
@@ -30,27 +46,90 @@ const LeasingTable = ({ data,rentToken }) => (
     </table>
 )
 
+const AddLeasing = ({ control,submit,errors,cancelClicked }) => (
+    <div className="container my-3">
+        <div className="row">
+            <div className="col-8 offset-lg-2">
+                <form onSubmit={submit}>
+                    <FormInputField
+                        defaultValue=""
+                        label="Token ID"
+                        name="token_id"
+                        control={control}
+                        error={errors.token_id}
+                    />
+                    <FormInputField
+                        defaultValue={0}
+                        label="Loan amount"
+                        name="amount"
+                        control={control}
+                        type="number"
+                        error={errors.amount}
+                    />
+                    <FormInputField
+                        defaultValue={0}
+                        label="Loan duration"
+                        name="duration"
+                        control={control}
+                        type="number"
+                        error={errors.duration}
+                    />
+                    <div className="text-right">
+                        <button type="button" onClick={cancelClicked} className="btn btn-secondary btn-lg">
+                            Cancel
+                        </button>
+                        <button className="btn btn-success btn-lg ml-2">
+                            Add
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+)
+
 function Leasing() {
 
     const [addNew,setAddNew] = useState(false);
-    const [formId,setFormId] = useState('');
-    const [formAmount,setFormAmount] = useState(0);
-    const [formDuration,setFormDuration] = useState(0);
+    const [saving,setSaving] = useState(false);
+
+    const {
+        control,
+        handleSubmit,
+        reset,
+        formState: { errors }
+    } = useForm({
+        resolver: yupResolver(LeasingSchema)
+    });
 
     const { account } = useSelector((state) => state.polka);
-    const leasingContract = useSelector(state => state.leasing.contract);
     const allLeases = useSelector(state => state.leasing.allLeases);
+
     const dispatch = useDispatch();
     useEffect(() => {
         if (account) {
             dispatch(listLeases());
         }
-    },[leasingContract,account,allLeases]);
+    },[account]);
 
     const rentToken = (record) => {
         dispatch(rentLease({ id: record.id,amount: record.amount }))
     }
 
+    const cancelClicked = () => {
+        setAddNew(false);
+        reset({});
+    }
+
+    const onSubmit = async (data) => {
+        try {
+            setSaving(true);
+            await dispatch(addLease(data))
+            setAddNew(false)
+        } finally {
+            setSaving(false);
+        }
+    };
 
     return (
         <>
@@ -69,67 +148,13 @@ function Leasing() {
                     <LeasingTable data={allLeases} rentToken={rentToken} />
                 </div>
             )}
-            {addNew && (
-                <div>
-                    <Container>
-                        <Row>
-                            <Col lg={8} className='offset-lg-2'>
-                                <div className='second-row'>
-                                    <div className='second-row-item'>
-                                        <Form.Group>
-                                            <Form.Row>
-                                                <Form.Label column lg={4}>
-                                                    Token ID
-                                                </Form.Label>
-                                                <Col>
-                                                    <Form.Control type="text" onChange={(e) => {
-                                                        setFormId(e.target.value);
-                                                    }} />
-                                                </Col>
-                                            </Form.Row>
-                                            <br />
-                                            <Form.Row>
-                                                <Form.Label column lg={4}>
-                                                    Loan duration
-                                                </Form.Label>
-                                                <Col>
-                                                    <Form.Control type="number" onChange={(e) => {
-                                                        setFormDuration(e.target.value);
-                                                    }} />
-                                                </Col>
-                                            </Form.Row>
-                                            <br />
-                                            <Form.Row>
-                                                <Form.Label column lg={4}>
-                                                    Loan Amount
-                                                </Form.Label>
-                                                <Col>
-                                                    <Form.Control type="number" onChange={(e) => {
-                                                        setFormAmount(e.target.value);
-                                                    }} />
-                                                </Col>
-                                            </Form.Row>
-                                            <br />
-                                            <br />
-                                        </Form.Group>
-                                    </div>
-                                </div>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col lg={8} md={8} className='offset-lg-2 offset-md-2'>
-                                <div className='third-row'>
-                                    <Button variant="secondary" size="lg" onClick={() => setAddNew(false)}>Cancel</Button>
-                                    <Button variant="success" size="lg" onClick={() => {
-                                        dispatch(addLease({ token_id: formId,amount: formAmount,duration: formDuration })).then((result) =>
-                                            setAddNew(false));
-                                    }}>Add</Button>
-                                </div>
-                            </Col>
-                        </Row>
-                    </Container>
-                </div>
-            )}
+            {addNew && <AddLeasing
+                cancelClicked={cancelClicked}
+                control={control}
+                errors={errors}
+                submit={handleSubmit(onSubmit)}
+            />}
+            {saving && <LoadingBar message="Saving" />}
         </>
     );
 }

@@ -55,7 +55,7 @@ export const updateMyNfts = createAsyncThunk(
                 const activeLends = [];
                 const activeLeases = [];
                 const activeRents = [];
-                for (let i = 0; i < allLeases.length; ++i) {
+                for (let i = 0; i < (allLeases || []).length; ++i) {
                     if (String(allLeases[i].beneficiary_address) === account.address) {
                         pushToLeases(activeLeases,allLeases[i]);
                     }
