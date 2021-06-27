@@ -13,6 +13,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import { updateMyNfts } from './store/erc721_reducer';
 import { updateErc20Balance } from './store/erc20_reducer';
 import styled from 'styled-components';
+import { LoadingBar } from 'components/LoadingBar';
 
 const ConnectButtonContainer = styled.div`
   display: flex;
@@ -51,6 +52,7 @@ const Container = styled.div`
 
 function App() {
   const [toggle,setToggle] = useState(false);
+  const [connecting,setConnecting] = useState(false);
   const dispatch = useDispatch();
   const { api,connected,accounts,account } = useSelector((state) => state.polka);
 
@@ -78,13 +80,23 @@ function App() {
     });
   }
 
+  const connectClicked = async () => {
+    try {
+      setConnecting(true);
+      await dispatch(initPolkaDot())
+    } finally {
+      setConnecting(false);
+    }
+  }
+
   return (
     <>
-      {!connected &&
+      {!connected && !connecting &&
         <ConnectButtonContainer>
-          <button onClick={() => { dispatch(initPolkaDot()) }}>Connect Wallet</button>
+          <button onClick={connectClicked}>Connect Wallet</button>
         </ConnectButtonContainer>
       }
+      {connecting && <LoadingBar message="Connecting" />}
       <Router>
         <Container id="wrapper" connected={connected}>
           <div className={`bg-sidebar ${toggle ? 't-btn' : 't-btn-block'}`} id="sidebar-wrapper">
