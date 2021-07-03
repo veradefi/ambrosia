@@ -7,7 +7,10 @@ import { initErc721Contract, updateMyNfts } from "../erc721_reducer";
 import { initleasingContract } from "../leasing_reducer";
 
 // const NODE_URL = "ws://127.0.0.1:9944";
-const NODE_URL = "ws://18.219.122.155:9944";
+// const NODE_URL = "ws://18.219.122.155:9944";
+
+const NODE_URL = "ws://"+process.env.REACT_APP_NODE_HOST+":9944"; //get node host fron environment variables
+
 const types = { "Balance": "u128", "Address": "AccountId", "LookupSource": "AccountId", "AccountInfo": 'AccountInfoWithRefCount' };
 
 export const initPolkaDot = createAsyncThunk(
