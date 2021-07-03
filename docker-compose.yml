@@ -1,0 +1,19 @@
+version: "3.9"
+
+services:
+  canvas_node:
+    build: ./node
+    ports:
+      - "9944:9944"
+    command: /root/.cargo/bin/canvas --dev --ws-external --rpc-external --prometheus-external
+  
+  frontend:
+    build:     
+      context: ./front-end
+      args:
+        REACT_APP_NODE_HOST: "18.219.122.155"
+    ports:
+      - "80:80"
+    depends_on:
+      - canvas_node
+    
