@@ -1,3 +1,4 @@
+// Copyright 2021 Vera http://vera.financial/
 import React, { useState, useEffect } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import Tabs from 'react-bootstrap/Tabs'

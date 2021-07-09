@@ -1,3 +1,4 @@
+// Copyright 2021 Vera http://vera.financial/
 import React from 'react';
 // import * as FaIcons from 'react-icons/fa';
 // import * as AiIcons from 'react-icons/ai';

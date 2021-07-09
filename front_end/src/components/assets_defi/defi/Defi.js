@@ -1,3 +1,4 @@
+// Copyright 2021 Vera http://vera.financial/
 import React,{ useEffect,useState } from 'react';
 import { Col,Container,Row } from 'react-bootstrap';
 import { useDispatch,useSelector } from 'react-redux';

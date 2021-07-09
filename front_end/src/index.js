@@ -1,3 +1,4 @@
+// Copyright 2021 Vera http://vera.financial/
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';

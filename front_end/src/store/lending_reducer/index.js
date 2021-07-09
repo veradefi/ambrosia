@@ -1,3 +1,4 @@
+// Copyright 2021 Vera http://vera.financial/
 import { ContractPromise } from "@polkadot/api-contract";
 import { web3FromAddress } from "@polkadot/extension-dapp";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";

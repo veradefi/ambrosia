@@ -1,3 +1,4 @@
+// Copyright 2021 Vera http://vera.financial/
 import React, { useState } from 'react';
 import './Home.css';
 import Sidebar from '../sidebar/Sidebar';

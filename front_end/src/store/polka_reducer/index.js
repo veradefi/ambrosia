@@ -1,3 +1,4 @@
+// Copyright 2021 Vera http://vera.financial/
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';

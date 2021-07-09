@@ -1,3 +1,4 @@
+// Copyright 2021 Vera http://vera.financial/
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import { erc20Reducer } from './erc20_reducer';
 import { erc721Reducer } from './erc721_reducer';
